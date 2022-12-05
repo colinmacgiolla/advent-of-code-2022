@@ -17,7 +17,7 @@ def main():
      1   2   3   4   5   6   7   8   9 
     
     '''
-    with open('C:\\Users\\colinmac\\Documents\\Git Projects\\advent-of-code-2022\\day-5\\input\\aoc_2022_day05_large_input-2.txt') as f:
+    with open('C:\\Users\\colinmac\\Documents\\Git Projects\\advent-of-code-2022\\day-5\\input\\data.txt') as f:
         raw_input = f.read()
         
     
