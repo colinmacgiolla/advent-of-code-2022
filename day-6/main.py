@@ -18,7 +18,7 @@ def msg_parser(input, window=4):
 
 def main():
 
-    with open('C:\\Users\\Colin MacGiollaEain\\Documents\\Projects\\advent-of-code-2022\\day-6\\input\\data.txt') as f:
+    with open('C:\\Users\\colinmac\\Documents\\Projects\\advent-of-code-2022\\day-6\\input\\data.txt') as f:
         raw_input = f.read()
 
     print("Part 1: Marker located at: %d" % msg_parser(raw_input))
