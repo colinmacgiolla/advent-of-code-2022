@@ -21,14 +21,25 @@ class Node(object):
     def find_nodes_by_size(self, size):
         node_list = []
         
-        if self._size >= size:
+        if self._size <= size:
             node_list.append(self)
             
         if len(self.nodes) > 0:
             for child in range(0,len(self.nodes)):
-                node_list.extend( self.nodes[child].find_nodes_by_size() )
+                node_list.extend( self.nodes[child].find_nodes_by_size(size) )
        
         return node_list
+    
+    def list_node_sizes(self):
+        node_list = []
+        node_list.append( (self.name,self._size) )
+            
+        if len(self.nodes) > 0:
+            for child in range(0,len(self.nodes)):
+                node_list.extend( self.nodes[child].list_node_sizes() )
+       
+        return node_list 
+    
     
     def prev(self):
         return self.prev
@@ -161,6 +172,24 @@ def main():
 
     root = fs.goto_root()
     print("Crosscheck 1 - sum of file sizes is %d, filesystem size is %d" % (total_size, root._size))
+    things = root.find_nodes_by_size(100000)
+    
+    print("Part 1: Sum of directory sizes, where the size is at most 10000: %d" % sum([obj._size for obj in things]) )
+    
+    
+    dir_list = root.list_node_sizes()
+    fs_max = 70000000
+    required = 30000000
+    target_reduction = required - (fs_max - root._size)
+    print("Part 2: We need to reduce disk space by: %d" % target_reduction)
+    
+    candidate_pool = []
+    for dir_name, size in dir_list:
+        if size >= target_reduction:
+            candidate_pool.append( (dir_name,size) )
+    print("%d directories meet the required criteria" % len(candidate_pool))
+    print("Recommend to delete %s with size %d" %  min(candidate_pool,key=lambda t:t[1]) )
+            
 
     return 0
 
