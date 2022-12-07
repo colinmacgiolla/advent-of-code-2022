@@ -6,14 +6,16 @@ class Node(object):
     def __init__(self) -> None:
         self.name = None
         self.nodes = []
-        self.data = []
+        self._data = []
+        self._size = 0
         self.prev = None
     
-    def find_node(self, name):
+    def find_node_by_name(self, name):
         for child in range(0,len(self.nodes)):
             if (self.nodes[child].name == name):
                 return self.nodes[child]
         return None
+    
     
     def prev(self):
         return self.prev
@@ -31,6 +33,18 @@ class Node(object):
         self.nodes.append(new_node)
         new_node.prev = self
         return new_node
+    
+    def add_file(self, name, size):
+        self._data.append( (name, size) )
+        self._size += size
+
+        # have to parse back up the tree
+        # to update the sizes
+        parent = self.prev
+        while parent is not None:
+            node = self.prev
+            node._size += size
+            parent = node.prev
     
     def get_node_path(self):
         
@@ -59,15 +73,24 @@ def main():
     
     fs = Node()
     fs.name = '/'
-    fs.data.append( ("test.txt",12345) )
+    fs.add_file( "test.txt",12345 )
     
     fs = fs.add_node()
     fs.name = 'child1'
-    fs.data.append( ("test2.txt",12345) )
+    fs.add_file( "test2.txt",12345 )
+    
+    fs = fs.prev
+    fs = fs.add_node()
+    fs.name = 'child2'
+    fs.add_file( "test2.2.txt", 2)
 
     
     print(fs.get_node_path())
     root = fs.goto_root()
+
+
+
+
 
 
     return 0
