@@ -11,13 +11,6 @@ class Node(object):
         self._dir_names = []
         self.prev = None
     
-    def find_node_by_name(self, name):
-        # FIXME
-        for child in range(0,len(self.nodes)):
-            if (self.nodes[child].name == name):
-                return self.nodes[child]
-        return None
-    
     def find_nodes_by_size(self, size):
         node_list = []
         
@@ -27,7 +20,6 @@ class Node(object):
         if len(self.nodes) > 0:
             for child in range(0,len(self.nodes)):
                 node_list.extend( self.nodes[child].find_nodes_by_size(size) )
-       
         return node_list
     
     def list_node_sizes(self):
@@ -37,7 +29,6 @@ class Node(object):
         if len(self.nodes) > 0:
             for child in range(0,len(self.nodes)):
                 node_list.extend( self.nodes[child].list_node_sizes() )
-       
         return node_list 
     
     
@@ -66,66 +57,19 @@ class Node(object):
         # to update the sizes
         parent = self.prev
         while parent is not None:
-            # our parent isn't the root
-            # so node = parent, and we update the size of the parent
- 
             parent._size += size
             # then we need to move up a tier
             parent = parent.prev
     
-    def get_node_path(self):
-        
-        path = []
-        path.append(self.name)
-        
-        parent = self.prev
-        path.append(parent.name)
-        while parent.prev is not None:
-            node = self.prev
-            path.append(node.name)
-            if node.prev is None:
-                parent.prev = None
-                
-        path.reverse()
-        return path
-            
-        
-
-
 
 def main():
 
     with open('C:\\Users\\colinmac\\Documents\\Git Projects\\advent-of-code-2022\\day-7\\input\\data.txt') as f:
         raw_input = f.read()
     
-#    fs = Node()
-#    fs.name = '/'
-#    fs.add_file( "test.txt",12345 )
-#    
-#    fs = fs.add_node()
-#    fs.name = 'child1'
-#    fs.add_file( "test2.txt",12345 )
-#    
-#    fs = fs.prev
-#    fs = fs.add_node()
-#    fs.name = 'child2'
-#    fs.add_file( "test2.2.txt", 2)
-#
-#    
-#    print(fs.get_node_path())
-#    root = fs.goto_root()
-
     fs = None
-    counter = 0
     
     for line in raw_input.split('\n'):
-        counter += 1
-        print("Processing line: %d" % counter)
-        
-        if counter == 33:
-            print("PAUSE")
-            
-        
         if line.startswith("$"):
             if "cd .." in line:
                 # move up a node
@@ -155,20 +99,6 @@ def main():
                 size = int(size)
                 fs.add_file(filename,size)
                 
-    
-    total_size = 0
-    for line in raw_input.split('\n'):
-        if line.startswith("$"):
-            pass
-        else:
-            if line.startswith("dir"):
-                pass
-            else:
-                size, name = line.split()
-                total_size += int(size)
-                
-
-
 
     root = fs.goto_root()
     print("Crosscheck 1 - sum of file sizes is %d, filesystem size is %d" % (total_size, root._size))
