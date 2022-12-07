@@ -101,7 +101,6 @@ def main():
                 
 
     root = fs.goto_root()
-    print("Crosscheck 1 - sum of file sizes is %d, filesystem size is %d" % (total_size, root._size))
     things = root.find_nodes_by_size(100000)
     
     print("Part 1: Sum of directory sizes, where the size is at most 100000: %d" % sum([obj._size for obj in things]) )
