@@ -11,11 +11,23 @@ class Node(object):
         self.prev = None
     
     def find_node_by_name(self, name):
+        # FIXME
         for child in range(0,len(self.nodes)):
             if (self.nodes[child].name == name):
                 return self.nodes[child]
         return None
     
+    def find_nodes_by_size(self, size):
+        node_list = []
+        
+        if self._size >= size:
+            node_list.append(self)
+            
+        if len(self.nodes) > 0:
+            for child in range(0,len(self.nodes)):
+                node_list.extend( self.nodes[child].find_nodes_by_size() )
+       
+        return node_list
     
     def prev(self):
         return self.prev
