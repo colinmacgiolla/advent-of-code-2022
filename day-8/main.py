@@ -25,16 +25,40 @@ def is_visible(row, col, data):
     return left or right or up or down
     
     
-def viewing_score(x,y, data):
-    score = 0
+def viewing_score(row,col, data):
     
-    current_tree_height = data[x][y]
+    current_tree_height = data[row][col]
+    
+    i_row = data[row]
+    i_col = [data[x][col] for x in range(len(data))]
+    
+    # left
+    left = 0
+    for x in reversed(i_row[:col]):
+        left += 1
+        if x >= current_tree_height:
+            break
+        
+    right = 0
+    for x in i_row[col+1:]:
+        right += 1
+        if x >= current_tree_height:
+            break
+        
+    up = 0
+    for x in reversed(i_col[:row]):
+        up += 1
+        if x >= current_tree_height:
+            break
+    
+    down = 0
+    for x in (i_col[row+1:]):
+        down += 1
+        if x >= current_tree_height:
+            break
     
     
-    
-    
-    
-    return score
+    return left * right * up * down
     
 
 
@@ -48,15 +72,17 @@ def main():
     data = [[int(i) for i in line] for line in input]
     
     ctr = 0
+    scenic_scores = []
     
     for row in range(len(data)):
         for col in range(len(data[row])):
             
             if is_visible(row, col, data):
                 ctr += 1
-            
+            scenic_scores.append(viewing_score(row, col, data))
             
     print("Part 1: Number of trees visible from outside the grid: %d" % ctr)
+    print("Part 2: Highest viewing score for any tree is: %d" % max(scenic_scores))
  
             
 
