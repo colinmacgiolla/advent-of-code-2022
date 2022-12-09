@@ -23,13 +23,20 @@ def move_tail(head: Point, tail: Point):
     
     if x_delta == y_delta == 0:
         pass
+    
     # Handle movement horizontally
     elif abs(x_delta) == 2 and y_delta == 0:
-        tail.x += 1 if x_delta > 0 else (tail.x -= 1)
+        if x_delta > 0:
+            tail.x += 1 
+        else:
+            tail.x -= 1
         
         
     elif abs(y_delta) == 2 and x_delta == 0:
-        tail.y += 1 if y_delta > 0 else tail.y -= 1
+        if y_delta > 0:
+            tail.y += 1 
+        else:
+            tail.y -= 1
     
     # diagonal move :(    
     elif (abs(x_delta) + abs(y_delta) > 2 ):
