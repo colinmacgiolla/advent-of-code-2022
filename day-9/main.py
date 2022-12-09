@@ -52,9 +52,11 @@ def move_tail(head: Point, tail: Point):
         
 def print_grid(head,tail):
     
-    state = [list("." * 6) for i in range(6)]
+    state = [list("." * 26) for i in range(21)]
     state[head.x][head.y] = 'H'
-    state[tail.x][tail.y] = 'T'
+    
+    for index, entry in enumerate(tail):
+        state[entry.x][entry.y] = str(index)
         
     for row in reversed(state):
         print("".join(row))
@@ -96,7 +98,7 @@ def main():
     head = Point(0,0)
     # Part 2 is basically handling multiple tails(knots)
     tail_log = set()
-    knots = [ Point(0,0) for i in range(10)]
+    knots = [ Point(0,0) for i in range(9)]
     tail_log.update( [ entry.location() for entry in knots ] )
     
     for line in input:
@@ -104,7 +106,9 @@ def main():
         for i in range(int(steps)):
             head = head + move[cmd]
             move_knots(head, knots)
-            tail_log.update( knots[-1].location() )
+            tail_log.add( knots[-1].location() )
+        #print_grid(head, knots)
+        #print("\n\n")
             
     print("Part 2: Number of positions the tail has hit: %d" % len(tail_log))
     
