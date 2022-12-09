@@ -60,8 +60,12 @@ def print_grid(head,tail):
         print("".join(row))
         
 
+def move_knots(head: Point, kts: list ):
+    move_tail(head, kts[0])
     
-    
+    for i in range(1,len(kts)):
+        move_tail(kts[i-1],kts[i])
+   
 
 def main():
 
@@ -89,7 +93,22 @@ def main():
             
     print("Part 1: Number of positions the tail has visited: %d" % len(tail_log))
 
+    head = Point(0,0)
+    # Part 2 is basically handling multiple tails(knots)
+    tail_log = set()
+    knots = [ Point(0,0) for i in range(10)]
+    tail_log.update( [ entry.location() for entry in knots ] )
+    
+    for line in input:
+        cmd, steps = line.split()
+        for i in range(int(steps)):
+            head = head + move[cmd]
+            move_knots(head, knots)
+            tail_log.update( knots[-1].location() )
             
+    print("Part 2: Number of positions the tail has hit: %d" % len(tail_log))
+    
+    
     
     
 
