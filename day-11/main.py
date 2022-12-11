@@ -123,6 +123,7 @@ def main():
 
     activity_level.clear()
     for monkey in round_two_monkeys:
+        monkey._relief_factor = 1
         # Insert the Lowest Common Multiple to each monkey
         monkey.lcm = lcm
 
