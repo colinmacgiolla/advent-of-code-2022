@@ -76,8 +76,7 @@ class Monkey:
     def action(self, item: int):
 
         if self.lcm is not None:
-            temp = item % self.lcm
-            updated_item = temp // self._relief_factor
+            updated_item = item % self.lcm
         else:
             updated_item = item // self._relief_factor
 
@@ -126,12 +125,14 @@ def main():
 
     lcm = math.lcm(*[monkey.test_divisor for monkey in  round_two_monkeys])
 
+    divisors = [monkey.test_divisor for monkey in round_two_monkeys]
+
     activity_level.clear()
     for monkey in round_two_monkeys:
         monkey.lcm = lcm
 
     for i in range(10000):
-        if i % 100 == 0:
+        if i % 1000 == 0:
             print("Processing iteration: %d" % i)
  
         for monkey in round_two_monkeys:
