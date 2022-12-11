@@ -1,6 +1,7 @@
 #!/bin/python
 
-
+from copy import deepcopy
+import math
 class Monkey:
     '''
     Arguments:
@@ -13,8 +14,8 @@ class Monkey:
     
     '''
 
-    def __init__(self, items: list[int] , test: int, trueTest: int, falseTest: int, operation: str):
-        self._relief_factor = 3
+    def __init__(self, items: list[int] , test: int, trueTest: int, falseTest: int, operation: str, relief_factor=3):
+        self._relief_factor = relief_factor
 
         self.items = items
         
@@ -22,6 +23,7 @@ class Monkey:
         self._true_target = trueTest
         self._false_target = falseTest
         self._inspect_ctr = 0
+        self.lcm = None
 
         self._operandA, self._operator, self._operandB = operation.split() 
 
@@ -73,7 +75,11 @@ class Monkey:
 
     def action(self, item: int):
 
-        updated_item = item // self._relief_factor
+        if self.lcm is not None:
+            temp = item % self.lcm
+            updated_item = temp // self._relief_factor
+        else:
+            updated_item = item // self._relief_factor
 
         if self.test(updated_item):
             return( (updated_item,self._true_target) )
@@ -104,12 +110,13 @@ def main():
 
         monkeys.append( Monkey(start_items, test, trueTest, falseTest, oper))
 
-    print("%d monkeys created" % len(monkeys))
+    round_two_monkeys = deepcopy(monkeys)
+    
     for i in range(20):
         for monkey in monkeys:
             steps = monkey.work_round()
             for task in steps:
-                monkeys[task[1]].catch(task[0])
+                monkeys[task[1]].catch(task[0])#
 
     activity_level = []
     for monkey in monkeys:
@@ -117,8 +124,25 @@ def main():
     activity_level.sort()
     print("Part 1: level of monkey business is: %d" % (activity_level[-1] * activity_level[-2]))
 
+    lcm = math.lcm(*[monkey.test_divisor for monkey in  round_two_monkeys])
 
-    
+    activity_level.clear()
+    for monkey in round_two_monkeys:
+        monkey.lcm = lcm
+
+    for i in range(10000):
+        if i % 100 == 0:
+            print("Processing iteration: %d" % i)
+ 
+        for monkey in round_two_monkeys:
+            steps = monkey.work_round()
+            for task in steps:
+                round_two_monkeys[task[1]].catch(task[0])
+
+    for monkey in round_two_monkeys:
+        activity_level.append(monkey._inspect_ctr)
+    activity_level.sort()
+    print("Part 2: level of monkey business is: %d" % (activity_level[-1] * activity_level[-2]))
 
 
     print("End of Line")
