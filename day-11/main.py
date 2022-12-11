@@ -10,24 +10,19 @@ class Monkey:
         trueTest: target monkey if true
         falseTest: target monkey if false
         operation: the string describing the operation performed by the monkey
-
-
+        relief_factor=3: part 1 parameter to limit the size of the dividend
     '''
 
     def __init__(self, items: list[int] , test: int, trueTest: int, falseTest: int, operation: str, relief_factor=3):
         self._relief_factor = relief_factor
-
         self.items = items
-
         self.test_divisor = test
         self._true_target = trueTest
         self._false_target = falseTest
         self._inspect_ctr = 0
+        # Added for part 2
         self.lcm = None
-
         self._operandA, self._operator, self._operandB = operation.split()
-
-
 
     def test(self, item: int):
         if item % self.test_divisor == 0:
@@ -48,10 +43,7 @@ class Monkey:
     def catch(self, item: int):
         self.items.append(item)
 
-
     def inspect(self, item: int):
-
-
         if self._operandA == 'old':
             operandA = item
         else:
@@ -63,7 +55,6 @@ class Monkey:
 
         if self._operator == '+':
             return int(operandA) + int(operandB)
-
         elif self._operator == '-':
             return int(operandA) - int(operandB)
         elif self._operator == '*':
@@ -71,11 +62,11 @@ class Monkey:
         elif self._operator == '/':
             return int(operandA) / int(operandB)
 
-
-
     def action(self, item: int):
 
         if self.lcm is not None:
+            # Part 2 special. the updated_item is now the modulo of the lowest common divisor, of the multiple
+            # of the divisors, on the dividend
             updated_item = item % self.lcm
         else:
             updated_item = item // self._relief_factor
@@ -123,10 +114,16 @@ def main():
     activity_level.sort()
     print("Part 1: level of monkey business is: %d" % (activity_level[-1] * activity_level[-2]))
 
+    # The part one solution runs into trouble after about 300 iterations
+    #
+    # however we can do "maths". The idea is that modulo (%) of the dividend, of the lowest common divisor (lcm)
+    # of the multiple of all the divisors, can be used to get the same results. This keeps the dividend size within
+    # the realms of normal computation
     lcm = math.lcm(*[monkey.test_divisor for monkey in  round_two_monkeys])
 
     activity_level.clear()
     for monkey in round_two_monkeys:
+        # Insert the Lowest Common Multiple to each monkey
         monkey.lcm = lcm
 
     for i in range(10000):
