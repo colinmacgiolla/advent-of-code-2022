@@ -116,9 +116,9 @@ def main():
 
     # The part one solution runs into trouble after about 300 iterations
     #
-    # however we can do "maths". The idea is that modulo (%) of the dividend, of the lowest common divisor (lcm)
-    # of the multiple of all the divisors, can be used to get the same results. This keeps the dividend size within
-    # the realms of normal computation
+    # however we can do "maths". The idea is that modulo (%) of the dividend (the "stress factor" of the item),
+    # of the lowest common divisor (lcm) of the multiple of all the divisors, can be used to get the same results. 
+    # This keeps the dividend size within the realms of normal computation
     lcm = math.lcm(*[monkey.test_divisor for monkey in  round_two_monkeys])
 
     activity_level.clear()
