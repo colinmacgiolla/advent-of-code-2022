@@ -2,6 +2,8 @@
 
 from copy import deepcopy
 import math
+
+
 class Monkey:
     '''
     Arguments:
