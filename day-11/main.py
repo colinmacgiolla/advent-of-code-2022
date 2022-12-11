@@ -11,21 +11,21 @@ class Monkey:
         falseTest: target monkey if false
         operation: the string describing the operation performed by the monkey
 
-    
+
     '''
 
     def __init__(self, items: list[int] , test: int, trueTest: int, falseTest: int, operation: str, relief_factor=3):
         self._relief_factor = relief_factor
 
         self.items = items
-        
+
         self.test_divisor = test
         self._true_target = trueTest
         self._false_target = falseTest
         self._inspect_ctr = 0
         self.lcm = None
 
-        self._operandA, self._operator, self._operandB = operation.split() 
+        self._operandA, self._operator, self._operandB = operation.split()
 
 
 
@@ -50,7 +50,7 @@ class Monkey:
 
 
     def inspect(self, item: int):
-        
+
 
         if self._operandA == 'old':
             operandA = item
@@ -63,7 +63,7 @@ class Monkey:
 
         if self._operator == '+':
             return int(operandA) + int(operandB)
-            
+
         elif self._operator == '-':
             return int(operandA) - int(operandB)
         elif self._operator == '*':
@@ -110,7 +110,7 @@ def main():
         monkeys.append( Monkey(start_items, test, trueTest, falseTest, oper))
 
     round_two_monkeys = deepcopy(monkeys)
-    
+
     for i in range(20):
         for monkey in monkeys:
             steps = monkey.work_round()
@@ -125,8 +125,6 @@ def main():
 
     lcm = math.lcm(*[monkey.test_divisor for monkey in  round_two_monkeys])
 
-    divisors = [monkey.test_divisor for monkey in round_two_monkeys]
-
     activity_level.clear()
     for monkey in round_two_monkeys:
         monkey.lcm = lcm
@@ -134,7 +132,7 @@ def main():
     for i in range(10000):
         if i % 1000 == 0:
             print("Processing iteration: %d" % i)
- 
+
         for monkey in round_two_monkeys:
             steps = monkey.work_round()
             for task in steps:
@@ -147,11 +145,6 @@ def main():
 
 
     print("End of Line")
-
-
-
-
-       
     return 0
 
 
