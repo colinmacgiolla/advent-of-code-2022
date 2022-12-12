@@ -58,8 +58,6 @@ def bfs_search(graph: Grid):
     
     while queue:
         distance,node = queue.popleft()
-        
-        print("Examining node: %d:%d" % (node[0], node[1]))
         if node == graph.end:
             return distance
         
@@ -75,6 +73,31 @@ def bfs_search(graph: Grid):
             else:
                 pass
             
+
+def reversed_bfs_search(graph: Grid):
+    visited = set()
+
+    queue = deque([ (0,graph.end) ])
+    
+    visited.add(graph.end)
+    
+    while queue:
+        distance,node = queue.popleft()
+        if graph.get_value(node) == 0:
+            return distance
+        
+        height = graph.get_value(node)
+        
+        
+        neighbors = graph.get_neighbors(node)
+        for neighbor, n_height in neighbors:
+            
+            if n_height >= height -1 and neighbor not in visited:
+                visited.add(neighbor)
+                queue.append((distance+1,neighbor))
+            else:
+                pass
+
 
 def main():
 
@@ -104,6 +127,7 @@ def main():
     
 
     print("Part 1: minimum distance between S and E is: %d" % bfs_search(map))
+    print("Part 2: minimum distance between E and any 'a' is: %d" % reversed_bfs_search(map))
             
     print("End of Line")
     return 0
