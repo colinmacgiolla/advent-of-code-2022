@@ -94,7 +94,7 @@ def main():
 
     # Sort based on whether or not they are correct I *think*!
  
-    sorted_packets = sorted(all_packets, key=cmp_to_key(compare_wrapper),reverse=True)
+    sorted_packets = sorted(all_packets, key=cmp_to_key(compare_wrapper), reverse=True)
     #pprint(sorted_packets)
     mark_1 = sorted_packets.index([[2]]) + 1
     mark_2 = sorted_packets.index([[6]]) + 1
