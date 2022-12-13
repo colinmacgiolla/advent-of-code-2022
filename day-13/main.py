@@ -4,6 +4,7 @@
 from ast import literal_eval
 from functools import cmp_to_key
 from pprint import pprint
+from copy import deepcopy
 
 def compare_packet(entryA, entryB):
     try:
@@ -53,18 +54,14 @@ def compare_packet(entryA, entryB):
         return False
 
 
-def insert_sort(A):
-
-    for step in range(1,len(A)):
-
-        current = A[step]
-        j = step
-
-        while j > 0 and compare_packet(current,A[j-1]):
-            A[j] = A[j-1]
-            j = j -1
-        A[j] = current
-    return A
+def compare_wrapper(entryA, entryB):
+    response = compare_packet(entryA, entryB)
+    if response is None:
+        return 0
+    elif response:
+        return 1
+    else:
+        return -1
 
 
 def main():
@@ -96,8 +93,8 @@ def main():
     all_packets.append([[6]])
 
     # Sort based on whether or not they are correct I *think*!
-
-    sorted_packets = insert_sort(all_packets)
+ 
+    sorted_packets = sorted(all_packets, key=cmp_to_key(compare_wrapper),reverse=True)
     #pprint(sorted_packets)
     mark_1 = sorted_packets.index([[2]]) + 1
     mark_2 = sorted_packets.index([[6]]) + 1
