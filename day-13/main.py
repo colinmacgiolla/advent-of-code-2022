@@ -4,50 +4,52 @@
 from ast import literal_eval
 
 def compare_packet(entryA, entryB):
+    try:
+        for i in range(len(entryA)):
+            x = entryA[i]
+            y = entryB[i]
 
-    for i in range(len(entryA)):
-        x = entryA[i]
-        y = entryB[i]
+            if isinstance(x, int) and isinstance(y, int):
+                # Handle int comparison
+                if x < y:
+                    return True
+                elif y > x:
+                    return False
+                else:
+                    continue
+                
+            elif isinstance(x, list) and isinstance(y, int):
+                # x is list and y is int
+                result = compare_packet(x,[y])
+                if result is None:
+                    continue
+                else:
+                    return result
+                
+            elif isinstance(x, int) and isinstance(y, list):
+                # x is int and y is list
+                result = compare_packet([x], y)
+                if result is None:
+                    continue
+                else:
+                    return result
+            else:
+                # Both are lists
+                result =  compare_packet(x,y)
+                if result is None:
+                    continue
+                else:
+                    return result
+                
 
-        if isinstance(x, int) and isinstance(y, int):
-            # Handle int comparison
-            if x < y:
-                return True
-            elif y > x:
-                return False
-            else:
-                continue
-            
-        elif isinstance(x, list) and isinstance(y, int):
-            # x is list and y is int
-            result = compare_packet(x,[y])
-            if result is None:
-                continue
-            else:
-                return result
-            
-        elif isinstance(x, int) and isinstance(y, list):
-            # x is int and y is list
-            result = compare_packet([x], y)
-            if result is None:
-                continue
-            else:
-                return result
-        else:
-            # Both are lists
-            result =  compare_packet(x,y)
-            if result is None:
-                continue
-            else:
-                return result
-            
-    if isinstance(x, list) and isinstance(y,list):
-    
+        
         # X should be shorter then Y and we haven't hit an exit yet
-        if len(x) < len(y):
+        if len(entryA) < len(entryB):
             return True
-    # If we get this far, more iterations are required
-    return None
+        # If we get this far, more iterations are required
+        return None
+    except IndexError:
+        return False
             
     
 
