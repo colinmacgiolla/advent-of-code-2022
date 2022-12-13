@@ -37,7 +37,7 @@ class Grid:
         self.start = start
         self.end = end
         
-    def get_neighbors(self, point: Point):
+    def get_neighbors(self, point):
         neighbors = []
         locations = [ Point(0,1), Point(0,-1), Point(1,0), Point(-1,0) ]
         for spot in locations:
