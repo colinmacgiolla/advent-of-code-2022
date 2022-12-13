@@ -5,6 +5,7 @@ from ast import literal_eval
 
 def compare_packet(entryA, entryB):
     try:
+        #print("Examining %s vs. %s" % (entryA, entryB))
         for i in range(len(entryA)):
             x = entryA[i]
             y = entryB[i]
@@ -13,7 +14,7 @@ def compare_packet(entryA, entryB):
                 # Handle int comparison
                 if x < y:
                     return True
-                elif y > x:
+                elif x > y:
                     return False
                 else:
                     continue
