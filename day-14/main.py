@@ -128,7 +128,7 @@ def main():
     while falling_sand(round_two, True):
         counter += 1
     
-        round_two.render()
+    round_two.render()
     print("Part 2: Number of grains of sand before the source is blocked: %d" % counter)
         
 
