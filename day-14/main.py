@@ -19,6 +19,9 @@ class Grid():
 
     def add_sand(self, point):
         self.data[point] = "o"
+        
+    def get_start(self):
+        return (self._startX, self._startY)
 
     def set_boundaries(self):
 
@@ -27,7 +30,7 @@ class Grid():
         self.max_X = max(self.data.keys(), key=lambda x: x[0])[0]
         self.max_Y = max(self.data.keys(), key=lambda x: x[1])[1]
 
-    def get( self, point, default="."):
+    def _get( self, point, default="."):
         if point in self.data:
             return self.data[point]
         else:
@@ -37,18 +40,19 @@ class Grid():
 
         for x in range(self.min_X, self.max_X+1):
             self.add_stone( (x, self.max_Y + floor) )
+        self.set_boundaries()
 
     def render(self):
         for y in range(self.min_Y,self.max_Y+1):
             print("")
             for x in range(self.min_X, self.max_X+1):
-                print("%s" % self.get((x,y)),end="" )
+                print("%s" % self._get((x,y)),end="" )
         print("\n")
 
 
 def falling_sand(grid: Grid, changed=False):
 
-    sandX, sandY = grid._startX,grid._startY
+    sandX, sandY = grid.get_start()
 
     while True:
 
@@ -75,7 +79,7 @@ def falling_sand(grid: Grid, changed=False):
             sandX += 1
             sandY += 1
 
-        elif (sandX,sandY) == (grid._startX, grid._startY):
+        elif (sandX,sandY) == grid.get_start():
             grid.add_sand( (sandX, sandY) )
             return False
         # can't move
@@ -117,17 +121,16 @@ def main():
     grid.render()
     print("Part 1: Number of grains of sand before the abyss: %d" % counter)
 
+    # need to start = 1, as the last iteration will terminate the while loop
     counter = 1
     round_two.set_floor()
     round_two.set_boundaries()
     while falling_sand(round_two, True):
         counter += 1
     
-    round_two.set_boundaries()
-    round_two.render()
+        round_two.render()
     print("Part 2: Number of grains of sand before the source is blocked: %d" % counter)
-    
-    
+        
 
     print("End of Line")
     return 0
