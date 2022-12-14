@@ -47,6 +47,13 @@ class Grid():
         else:
             return default
         
+    def set_floor(self, floor=2):
+        
+        for x in range(self.min_X, self.max_X+1):
+            self.add_stone( (x, self.max_Y + floor) )
+        self.set_boundaries()
+        
+        
     def render(self):
         for y in range(self.min_Y,self.max_Y+1):
             print("")
@@ -60,7 +67,7 @@ def falling_sand(grid: Grid):
     sandX, sandY = grid._startX,grid._startY
     
 
-    while True:
+    while (sandX in range(grid.min_X, grid.max_X+1) and sandY in range(grid.min_Y, grid.max_Y)):
        
         # current space is empty, so fall by one
         if (sandX, sandY+1) not in grid.data:
@@ -80,12 +87,9 @@ def falling_sand(grid: Grid):
         # can't move
         else:
             grid.add_sand( (sandX, sandY) )
-            break
+            return True
             
-            
-    
-    
-    return None
+    return False
 
 
 
@@ -109,12 +113,14 @@ def main():
     
     # Import completed
     grid.set_boundaries()
-                    
-
-    for _ in range(22):
-        falling_sand(grid)
+               
+               
+    counter = 0
+    while falling_sand(grid):
+        counter += 1
 
     grid.render()
+    print("Part 1: Number of grains of sand before the abyss: %d" % counter)
                 
          
         
