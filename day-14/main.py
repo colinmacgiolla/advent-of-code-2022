@@ -124,7 +124,7 @@ def main():
     # need to start = 1, as the last iteration will terminate the while loop
     counter = 1
     round_two.set_floor()
-    round_two.set_boundaries()
+
     while falling_sand(round_two, True):
         counter += 1
     
